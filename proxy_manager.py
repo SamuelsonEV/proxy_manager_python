@@ -4,17 +4,28 @@ TODO figure out the logic to put minimum_lef_to_probe_before_load_more and minim
 '''
 
 '''
-This module manage all proxy related problems like acquiring receiving get requests and probing rate of the proxys
-that will be given.
+Scrape proxy lists from various sources, remove repeated, then ping each one of them.
+Keep tabs on the number of working proxies avaliable and updates the untested proxys list when running low.
 
-USAGE 
-When object is created, it runs self.load_proxy_list() and load proxys....
-object = ProxyManager(minimum_number_of_proxys, probing_rate)
+ ...
 
-get()   -> Give a proxy to be probed or alredy worked
+ Attributes
+ ----------
+ minimum_number_of_proxys : int
+     minimum number of working proxies at all times(It keeps probing when running low)
+ probing_rate : float
+     The rate of using working proxies to probe for new ones measured on percentage(float number betwen 1 and 0)
 
-worked(proxy)  -> Receive a proxy that worked
-fail(proxy)  -> Receive a proxy that failed
+ Methods
+ -------
+ get():
+     Returns a Proxy
+     
+ worked(proxy):
+     Keep tabs on proxy that worked
+     
+ fail(proxy):
+     Keep tabs on proxy that failed
 '''
 
 
