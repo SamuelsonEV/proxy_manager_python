@@ -58,7 +58,7 @@ class ping_proxy_list:
             delay = ping(item[0][:item[0].find(":")], unit='ms', timeout=timeout_of_ping)
 
             # Try access some site using the Proxy <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            if delay is not None:
+            if (delay is not None) and (delay is not False):
                 if delay < self.maximum_delay_in_ms:
                     proxy_used_in_this_round = item[0]
                     local_reesult.append([item[0], item[1], delay])
