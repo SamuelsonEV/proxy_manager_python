@@ -60,7 +60,7 @@ class ProxyManager:
         self.probing_to_working_rate = probing_rate
         self.proxy_list = []
         self.needs_probing = []
-        self.worked_before_df=pd.DataFrame(columns = ['Adress', 'Protocol', 'sum_Delays', 'Cons_Failures', 'Attemps'])  # Create empty DF
+        self.worked_before_df=pd.DataFrame(columns = ['Adress', 'Protocol', 'Cons_Failures', 'Attemps'])  # Create empty DF
         self.worked_before = []
         self.worked_before_last_failures = []
         self.how_many_times_probed = 0
@@ -187,16 +187,14 @@ class ProxyManager:
         logger.info("Receiving proxy that worked:  {}".format(str(proxy)))
         if (self.worked_before_df.loc[(self.worked_before_df['Adress'] == proxy[0]) & (self.worked_before_df['Protocol'] == proxy[1])]).empty:  # Check if its able to find that row !!!!!
             print("Nao Achoooouu, Adicionandooooo ")
-            dic = {'Adress': proxy[0], 'Protocol': proxy[1], 'sum_Delays': proxy[2], 'Cons_Failures': 0, 'Attemps': 1}
+            dic = {'Adress': proxy[0], 'Protocol': proxy[1], 'Cons_Failures': 0, 'Attemps': 1}
             self.worked_before_df = self.worked_before_df.append(dic, ignore_index = True)
             self.probing_new_proxy_was_successful += 1
             logger.info("probing_new_proxy_was_successful:  {}   |  how_many_times_probed:  {}".format(str(self.probing_new_proxy_was_successful), str(self.how_many_times_probed)))
             logger.info("round(self.how_many_times_probed/self.probing_new_proxy_was_successful) = ratio_of_probings_ending_successfully:  {}".format(str(round(self.how_many_times_probed/self.probing_new_proxy_was_successful))))
         else:  # If it already exists it will modify the A Column
             print("     Achoooouu, modificando existente")
-            # dic = {'Adress': proxy[0], 'Protocol': proxy[1], 'sum_Delays': proxy[2], 'Cons_Failures': 0, 'Attemps': 1}
             self.worked_before_df.loc[(self.worked_before_df['Adress'] == proxy[0]) & (self.worked_before_df['Protocol'] == proxy[1]), 'Cons_Failures'] = 0
-            self.worked_before_df.loc[(self.worked_before_df['Adress'] == proxy[0]) & (self.worked_before_df['Protocol'] == proxy[1]), 'sum_Delays'] += proxy[2]
             self.worked_before_df.loc[(self.worked_before_df['Adress'] == proxy[0]) & (self.worked_before_df['Protocol'] == proxy[1]), 'Attemps'] += 1
         print(self.worked_before)
         self.worked_before_df = self.worked_before_df.reset_index(drop=True)
